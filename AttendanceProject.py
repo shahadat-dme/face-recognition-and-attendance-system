@@ -4,7 +4,7 @@ import face_recognition
 import os
 from datetime import datetime
 
-path = 'P:/ai/face-recognition/ImagesAttendance'
+path = 'P:/ai/face-recognition/ImageAttendance/'
 images = []
 classNames = []
 myList = os.listdir(path)
@@ -32,10 +32,10 @@ def markAttendance(name):
         for line in myDataList:
             entry = line.split(',')
             nameList.append(entry[0])
-            if name not in nameList:
-                now = datetime.now()
-                dtString = now.strftime('%H:%M:%S')
-                f.writelines(f'n{name},{dtString}')
+        if name not in nameList:
+            now = datetime.now()
+            dtString = now.strftime('%H:%M:%S')
+            f.writelines(f'\n{name},{dtString}')
 
 
 encodeListKnown = findEncodings(images)
@@ -70,4 +70,6 @@ while True:
             markAttendance(name)
 
     cv2.imshow('Webcam', img)
-    cv2.waitKey(0)
+    keypress = cv2.waitKey(1)
+    if keypress & 0xFF == ord('q'):
+        break
